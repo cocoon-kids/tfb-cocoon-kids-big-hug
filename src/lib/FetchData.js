@@ -1,5 +1,9 @@
-export async function fetchData(endPoint) {
-    const res = await fetch('http://localhost:3003/' + endPoint)
-    const data = await res.json()
-    return data
+import fsPromises from 'fs/promises';
+import path from 'path'
+
+export async function getStaticProps() {
+  const filePath = path.join(process.cwd(), 'json/db.json');
+  const jsonData = await fsPromises.readFile(filePath);
+  const objectData = JSON.parse(jsonData);
+  return objectData
 }
