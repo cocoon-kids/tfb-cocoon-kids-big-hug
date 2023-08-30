@@ -3,7 +3,6 @@ import Layout from '../../components/layout/Layout'
 import { getStaticProps } from "../../lib/FetchData";
 
 export async function getServerSideProps({ params }) {
-    // const domake = await fetchData(`do-make/?title=${params.title}`)
 
     const data = await getStaticProps();
 
