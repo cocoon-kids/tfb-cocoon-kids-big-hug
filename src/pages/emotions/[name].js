@@ -9,8 +9,8 @@ import SingleEmotion from '../../components/emotions/SingleEmotion'
 
 import Layout from '../../components/layout/Layout'
 import ChatSpeak from '../../components/ChatSpeak'
-import path from 'path'
-import { promises as fs } from 'fs'
+import { getStaticProps } from "../../lib/FetchData";
+
 import VideoPage from '../../components/video/videoCards'
 import PlayGame from '../../components/playgame/PlayGame'
 import DoMake from '../../components/domake/DoMake'
@@ -54,16 +54,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export async function getServerSideProps(context) {
     const name = context.params.name
 
-    const jsonDirectory = path.join(process.cwd(), 'json')
-    //Read the json data file data.json
-    const fileContents = await fs.readFile(jsonDirectory + '/db.json', 'utf8')
-    const data = JSON.parse(fileContents)
+    const data = await getStaticProps();
+
     const emotion = data['emotions'].filter((emotion) => emotion.name === name)
     const chat = data['chat-speak']
     const domake = data[`do-make`].filter((domake) => domake.emotions.includes(name))
     const games = data[`play-game`].filter((games) => games.emotions.includes(name))
     const video = data[`video`].filter((video) => video.emotions.includes(name))
-    //Return the content of the data file in json format
 
     return { props: { emotion, chat, games, domake, name , video} }
 }
